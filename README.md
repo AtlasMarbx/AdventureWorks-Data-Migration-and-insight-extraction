@@ -1,10 +1,24 @@
 # AdventureWorks: End-to-End Data Engineering & EDA Insight Generation
 
+[![Python](https://img.shields.io/badge/Python-3.10-blue]())
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-orange]())
+[![Pandas](https://img.shields.io/badge/Pandas-%20-purple]())
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-GMM-orange]())
+[![kmodes](https://img.shields.io/badge/kmodes-KPrototypes-blue]())
+[![Azure](https://img.shields.io/badge/Azure-Blob_Storage-0089D6)())
+
+**80+ tables migrated · 12.4M cells · 3 domains analyzed · 19 phases · 19,800+ customers profiled · k=4 clusters**
+
 An end-to-end manual data engineering and exploratory analysis project migrating **AdventureWorks2022** (80+ tables, 12.4M+ cells) from SQL Server to MySQL, followed by structured EDA and unsupervised customer profiling.
+
+**Key findings:** 87.90% online orders · 61.73% foreign revenue · 74.60% of revenue from 6.74% of customers (businesses)
 
 ---
 
-## Phase 1: Data Acquisition & Extraction
+### Migration (Phases 1–7)
+
+<details>
+<summary>Phase 1: Data Acquisition & Extraction</summary>
 
 **Problem**
 The source dataset was a `.bak` (SQL Server native backup) file — not portable to MySQL. No direct conversion tools existed that were both secure and reliable for company-grade data.
@@ -22,9 +36,10 @@ The source dataset was a `.bak` (SQL Server native backup) file — not portable
 - Deep understanding of SSMS export mechanics, data type compatibility, and cross-RDBMS migration planning
 - Learned that "if it works, don't touch it" — hours were lost reverting driver settings on a working Export Wizard configuration
 
----
+</details>
 
-## Phase 2: Cross-RDBMS Migration (SQL Server → CSV → MySQL)
+<details>
+<summary>Phase 2: Cross-RDBMS Migration (SQL Server → CSV → MySQL)</summary>
 
 **Problem**
 SQL Server and MySQL use fundamentally different type systems — `MONEY`, `XML`, `NVARCHAR`, `VARBINARY`, `GEOGRAPHY`, `BIT`, and `UNIQUEIDENTIFIER` have no direct MySQL equivalents. CSV is a lossy intermediate format; the Export Wizard alone failed repeatedly due to data type mismatches, nullable constraints, and delimiter conflicts.
@@ -49,9 +64,10 @@ SQL Server and MySQL use fundamentally different type systems — `MONEY`, `XML`
 - Practical understanding of `DECIMAL(p,s)` precision vs. scale
 - Competence with `utf8mb4` for international character support
 
----
+</details>
 
-## Phase 3: Data Cleaning & Integrity
+<details>
+<summary>Phase 3: Data Cleaning & Integrity</summary>
 
 **Problem**
 CSV export introduced systematic issues: shifted columns (commas inside strings misinterpreted as delimiters), NULLs exported as empty strings, multi-language strings breaking parsing, and unpredictable structural inconsistencies in views.
@@ -75,9 +91,10 @@ CSV export introduced systematic issues: shifted columns (commas inside strings 
 - Learned that data cleaning is the dominant time sink in any analytics pipeline
 - Built a reusable mental framework: inspect → hypothesise → test → correct → validate
 
----
+</details>
 
-## Phase 4: Data Modeling (EER Diagram & Relationships)
+<details>
+<summary>Phase 4: Data Modeling (EER Diagram & Relationships)</summary>
 
 **Problem**
 80+ tables across 5 business domains (Sales, Production, Purchasing, Human Resources, Person) with no formal relationships, no primary/foreign keys, orphan records, and incorrect data types embedded during import.
@@ -105,9 +122,10 @@ CSV export introduced systematic issues: shifted columns (commas inside strings 
 - Understanding of indexing: `B-Tree`, `EXPLAIN` for query plan analysis
 - Practical distinction between 1:1, 1:n, and many-to-many cardinalities and their enforcement via keys
 
----
+</details>
 
-## Phase 5: Performance Optimization
+<details>
+<summary>Phase 5: Performance Optimization</summary>
 
 **Problem**
 Cross-table joins on large datasets (e.g., 31K-row sales × 121K-row details) without indexes resulted in full table scans and slow query response.
@@ -124,9 +142,10 @@ Cross-table joins on large datasets (e.g., 31K-row sales × 121K-row details) wi
 - Indexes are a trade-off: faster `SELECT`, slower `UPDATE`/`INSERT`, extra disk space
 - `SHOW INDEX FROM table` and `DROP INDEX` for lifecycle management
 
----
+</details>
 
-## Phase 6: Cloud Backup & Security
+<details>
+<summary>Phase 6: Cloud Backup & Security</summary>
 
 **Problem**
 A local-only dataset is a single ransomware event away from total loss. Sensitive employee data (NationalIDNumber, LoginID, hashed passwords) required secure handling.
@@ -149,9 +168,10 @@ A local-only dataset is a single ransomware event away from total loss. Sensitiv
 - Hands-on Azure RBAC and `azcopy` with `az login` vs. SAS-token-based auth
 - Learned to read the docs before assuming you can modify privileged resources
 
----
+</details>
 
-## Phase 7: Python EDA Integration
+<details>
+<summary>Phase 7: Python EDA Integration</summary>
 
 **Problem**
 Analysis needed to move from SQL queries to Python (pandas, matplotlib, seaborn) for richer statistical exploration. The connection code needed to be clean and straightforward for local EDA.
@@ -172,9 +192,12 @@ Analysis needed to move from SQL queries to Python (pandas, matplotlib, seaborn)
 - Knowing when *not* to over-engineer — `text()` + `params` is valuable for backend services, unnecessary for local EDA
 - `pandas.read_sql_query` with pure SQL strings keeps the code simple when queries are trusted
 
----
+</details>
 
-## Phase 8: Data Understanding & Table Selection
+### Analysis (Phases 8–18)
+
+<details>
+<summary>Phase 8: Data Understanding & Table Selection</summary>
 
 **Problem**
 10+ interconnected sales tables across multiple business domains — needed to identify which tables held analytical value and which could be deferred without compromising insight quality.
@@ -195,9 +218,10 @@ Analysis needed to move from SQL queries to Python (pandas, matplotlib, seaborn)
 - Practical judgment in scoping EDA to business-relevant tables rather than exhaustive coverage
 - Understanding that query infrastructure design must balance security (parameterization) with context (manual vs. automated pipeline)
 
----
+</details>
 
-## Phase 9: Null Analysis & Initial Business Assumptions
+<details>
+<summary>Phase 9: Null Analysis & Initial Business Assumptions</summary>
 
 **Problem**
 Several columns in SalesOrderHeader contained null values at varying ratios — needed to determine whether these represented meaningful business signals or data quality issues.
@@ -221,9 +245,10 @@ Several columns in SalesOrderHeader contained null values at varying ratios — 
 - Cross-validation technique: using one column's null pattern to validate assumptions about another column
 - Connecting data quality signals to testable business hypotheses before statistical modeling
 
----
+</details>
 
-## Phase 10: Foreign Market Decomposition & Currency Normalization
+<details>
+<summary>Phase 10: Foreign Market Decomposition & Currency Normalization</summary>
 
 **Problem**
 Multi-currency financial data across 10 territories required normalization to a common numeraire (USD) before any aggregative or comparative analysis was valid. Additionally, the relationship between territories, currency conversion, and transaction volume needed decomposition.
@@ -247,9 +272,10 @@ Multi-currency financial data across 10 territories required normalization to a 
 - `np.where` for safe ratio engineering (avoids `inf`/`NaN` from zero-division)
 - Understanding that `value_counts(normalize=True)` gives immediate market share decomposition without manual percentage calculation
 
----
+</details>
 
-## Phase 11: Column Disposition Strategy & Data Retention
+<details>
+<summary>Phase 11: Column Disposition Strategy & Data Retention</summary>
 
 **Problem**
 Of 26 columns in SalesOrderHeader, several held zero analytical value or contained sensitive data that should not enter the modeling pipeline. A principled retention/drop decision was needed for each.
@@ -274,9 +300,10 @@ Of 26 columns in SalesOrderHeader, several held zero analytical value or contain
 - Principled column disposition framework: (1) empty → drop, (2) identifier → drop, (3) sensitive → drop, (4) null with signal → retain, (5) null with operational use → propagate
 - Detecting bootstrapped historical data via currency code anomalies (VEB discontinued in 2008)
 
----
+</details>
 
-## Phase 12: Customer-Level Aggregation & Transaction Profiling
+<details>
+<summary>Phase 12: Customer-Level Aggregation & Transaction Profiling</summary>
 
 **Problem**
 Raw sales data was at the order-line level — needed to aggregate to customer level for RFM analysis and unsupervised customer segmentation, while identifying high-value and outlier accounts.
@@ -300,9 +327,10 @@ Raw sales data was at the order-line level — needed to aggregate to customer l
 - Practical outlier identification via distribution inspection — confirmed GMM with `full` covariance as the appropriate model (handles clusters of varying shapes and sizes)
 - Recognized that top-30 analysis is a biased heuristic that does not represent the true distribution — reinforced the need for unsupervised, distribution-aware methods
 
----
+</details>
 
-## Phase 13: Tax Ratio Hypothesis Testing (Linear vs. Non-Linear)
+<details>
+<summary>Phase 13: Tax Ratio Hypothesis Testing (Linear vs. Non-Linear)</summary>
 
 **Problem**
 A hypothesis emerged: transactions with low `SubTotal_USD` might have a higher average `TaxRatio%`, possibly explaining revenue leakage on small orders. Needed rigorous statistical testing with appropriate model comparison.
@@ -330,9 +358,10 @@ A hypothesis emerged: transactions with low `SubTotal_USD` might have a higher a
 - Principled stance on class imbalance: preserving natural distribution is less biased than resampling
 - Visual residual analysis as diagnostic tool for model selection
 
----
+</details>
 
-## Phase 14: Logistics Timeline Analysis & Shipment Uniformity Discovery
+<details>
+<summary>Phase 14: Logistics Timeline Analysis & Shipment Uniformity Discovery</summary>
 
 **Problem**
 Time interval features (`TimeInterval_ship`, `TimeInterval_due`, `BufferTime`) were engineered to test whether delivery timelines and buffer windows correlated with tax rate variations across regions.
@@ -352,9 +381,10 @@ Time interval features (`TimeInterval_ship`, `TimeInterval_due`, `BufferTime`) w
 - Feature engineering of date intervals from datetime columns in pandas (vectorized subtraction → `.dt.days`)
 - Understanding that "no correlation" and "uncorrelatable" (zero variance) are different diagnostic results
 
----
+</details>
 
-## Phase 15: Multicollinearity Diagnosis & Shipment Method Disparity
+<details>
+<summary>Phase 15: Multicollinearity Diagnosis & Shipment Method Disparity</summary>
 
 **Problem**
 Perfect correlations (1.00) between `SubTotal`, `TaxAmt`, `Freight`, and `TotalDue` suggested severe multicollinearity. Additionally, `ShipMethodID` needed analysis for its impact on cost ratios.
@@ -378,9 +408,10 @@ Perfect correlations (1.00) between `SubTotal`, `TaxAmt`, `Freight`, and `TotalD
 - Mann-Whitney U test selection rationale: non-parametric, two-sample, two-tailed — appropriate for nominal-group comparison with non-normal distributions
 - Discovery that feature gaps (unused shipment methods) reveal business process boundaries (procurement vs. sales)
 
----
+</details>
 
-## Phase 16: Product Portfolio Analysis — Finished Goods vs. Components
+<details>
+<summary>Phase 16: Product Portfolio Analysis — Finished Goods vs. Components</summary>
 
 **Problem**
 The Product table (504 products) contained mixed product states — finished goods, raw components, and assemblies — without clear differentiation. Needed to segment the product portfolio for meaningful sales analysis.
@@ -407,9 +438,10 @@ The Product table (504 products) contained mixed product states — finished goo
 - Null ratio decomposition to infer business logic (weight tracking = non-raw-component status)
 - Cross-referencing manufacture days with product state reveals operational efficiency patterns
 
----
+</details>
 
-## Phase 17: Customer Segmentation — Business vs. Individual Analysis
+<details>
+<summary>Phase 17: Customer Segmentation — Business vs. Individual Analysis</summary>
 
 **Problem**
 Customer type distribution (business vs. individual) was unknown but critical for understanding transaction concentration risk and tailoring marketing strategy.
@@ -431,9 +463,10 @@ Customer type distribution (business vs. individual) was unknown but critical fo
 - Concentration ratio analysis: minority segment (7%) driving majority of revenue (74.6%)
 - Inactive customer identification via transaction history join
 
----
+</details>
 
-## Phase 18: Top/Bottom Product Performance & Seasonality Decomposition
+<details>
+<summary>Phase 18: Top/Bottom Product Performance & Seasonality Decomposition</summary>
 
 **Problem**
 Product-level sales performance and seasonal patterns needed systematic decomposition to identify revenue drivers, inventory planning signals, and underperformers.
@@ -463,9 +496,12 @@ Product-level sales performance and seasonal patterns needed systematic decompos
 - Subcategory rollup for hierarchical product performance analysis
 - Pattern recognition: distinguishing unified seasonal demand (all bikes) from product-specific anomalies (Product 710)
 
----
+</details>
 
-## Phase 19: Dual Clustering — GMM (Monetary/Frequency) & KPrototypes (Monetary + Subcategory)
+### Clustering (Phase 19)
+
+<details>
+<summary>Phase 19: Dual Clustering — GMM (Monetary/Frequency) & KPrototypes (Monetary + Subcategory)</summary>
 
 **Problem**
 Transaction data contained a mix of continuous numeric features (monetary, frequency) and categorical features (product subcategories). A single clustering algorithm could not handle both types natively. Needed separate approaches for each data modality.
@@ -504,8 +540,9 @@ Transaction data contained a mix of continuous numeric features (monetary, frequ
 - GMM as a generative model: produces cluster probabilities, not hard assignments — enables nuanced customer treatment
 - KPrototypes for mixed-type clustering: bridges the gap between purely numeric and purely categorical segmentation approaches
 
----
+</details>
 
+---
 
 ## Project Summary
 
