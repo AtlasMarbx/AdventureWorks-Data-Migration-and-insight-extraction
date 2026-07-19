@@ -1,6 +1,6 @@
 # AdventureWorks: End-to-End Data Engineering & EDA Insight Generation
 
-![](https://img.shields.io/badge/Python-3.10-blue)
+![](https://img.shields.io/badge/Python-3.13-blue)
 ![](https://img.shields.io/badge/MySQL-8.0-orange)
 ![](https://img.shields.io/badge/Pandas-%20-purple)
 ![](https://img.shields.io/badge/scikit--learn-GMM-orange)
