@@ -1,11 +1,11 @@
 # AdventureWorks: End-to-End Data Engineering & EDA Insight Generation
 
-[![Python](https://img.shields.io/badge/Python-3.10-blue]())
-[![MySQL](https://img.shields.io/badge/MySQL-8.0-orange]())
-[![Pandas](https://img.shields.io/badge/Pandas-%20-purple]())
-[![scikit-learn](https://img.shields.io/badge/scikit--learn-GMM-orange]())
-[![kmodes](https://img.shields.io/badge/kmodes-KPrototypes-blue]())
-[![Azure](https://img.shields.io/badge/Azure-Blob_Storage-0089D6)())
+![](https://img.shields.io/badge/Python-3.10-blue)
+![](https://img.shields.io/badge/MySQL-8.0-orange)
+![](https://img.shields.io/badge/Pandas-%20-purple)
+![](https://img.shields.io/badge/scikit--learn-GMM-orange)
+![](https://img.shields.io/badge/kmodes-KPrototypes-blue)
+![](https://img.shields.io/badge/Azure-Blob_Storage-0089D6)
 
 **80+ tables migrated · 12.4M cells · 3 domains analyzed · 19 phases · 19,800+ customers profiled · k=4 clusters**
 
